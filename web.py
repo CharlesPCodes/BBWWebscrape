@@ -17,23 +17,36 @@ soup = BeautifulSoup(page, 'html.parser')
 # NOTE:
 # DEV: If no more emails, check to see if the cells names have changed
 # 
-col_one = soup.find_all('div', attrs={'class' : 'banner-container clearfix two-cells'})[0]
+###########################################################################################
+# ORIGINAL VARIABLES AND CLASSES
+# col_one = soup.find_all('div', attrs={'class' : 'banner-container clearfix two-cells'})[0]
+# print(col_one.text)
+
+# col_two = soup.find_all('div', attrs={'class' : 'banner-container clearfix two-cells'})[1]
+# print(col_two.text)
+
+# col_three = soup.find_all('div', attrs={'class' : 'banner-container clearfix two-cells'})[2]
+# print(col_three.text)
+
+# col_four = soup.find_all('div', attrs={'class' : 'banner-container clearfix two-cells'})[3]
+# print(col_four.text)
+##############################################################################################
+
+col_one = soup.find_all('div', attrs={'class' : 'section brand small last grid'})[0]
 print(col_one.text)
 
-col_two = soup.find_all('div', attrs={'class' : 'banner-container clearfix two-cells'})[1]
+col_two = soup.find_all('div', attrs={'class' : 'section brand small last grid'})[1]
 print(col_two.text)
 
-col_three = soup.find_all('div', attrs={'class' : 'banner-container clearfix two-cells'})[2]
+col_three = soup.find_all('div', attrs={'class' : 'section brand small last grid'})[2]
 print(col_three.text)
 
-col_four = soup.find_all('div', attrs={'class' : 'banner-container clearfix two-cells'})[3]
+col_four = soup.find_all('div', attrs={'class' : 'section brand small last grid'})[3]
 print(col_four.text)
 
 
 #This removes the text file so it can be re-written
 os.remove("FinalOutput.txt")
-
-
 
 
 #opens text file and prints the saved deals to the text document
@@ -43,10 +56,6 @@ with open('FinalOutput.txt', "w") as text_file:
 	print(col_three.text.strip(), file=text_file)
 	print(col_four.text.strip(), file=text_file)
 
-
-
-
-
 ##############################
 # email
 from email.mime.multipart import MIMEMultipart
@@ -54,13 +63,9 @@ from email.mime.text import MIMEText
 from email.mime.base import MIMEBase
 from email import encoders
 #gets the from address and the recipiant address
+fromaddr="cpbbwinfo@gmail.com"
+toaddr="charles.pierson15@gmail.com"
 
-
-#####################################
-# FOR USERS FILL IN THE EMAILS BELOW
-fromaddr="FROMADDRESS"
-toaddr="TOADDRESS"
-#####################################
 msg = MIMEMultipart()
 
 msg['From'] = fromaddr
@@ -72,24 +77,18 @@ body = ("BBW Top Offers")
 msg.attach(MIMEText(body, 'plain'))
 
 filename="FinalOutput.txt"
-#####################################
-# CHANGE THE LOCATION OF WHERE YOUR FinalOutput.txt file is
-attachment = open("C:", "rb")
-#####################################
+attachment = open("C:\\Users\\CJ' PC\\Desktop\\Python\\wb\\FinalOutput.txt", "rb")
+
 part = MIMEBase('application', 'octet-stream')
 part.set_payload((attachment).read())
 encoders.encode_base64(part)
 part.add_header('Content-Disposition', "attachment; filename= %s" % filename)
 
 msg.attach(part)
-
-
-# DONT CHANGE FOR GMAIL ONLY CHANGE WHAT IS IN THE #####
+ 
 server = smtplib.SMTP('smtp.gmail.com', 587)
 server.starttls()
-#####################################
-server.login('EMAIL', "PASSWORD")
-#####################################
+server.login('cpbbwinfo@gmail.com', "05vDZT68f3IH")
 text = msg.as_string()
 server.sendmail(fromaddr, toaddr, text)
 server.quit()

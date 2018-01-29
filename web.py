@@ -62,10 +62,13 @@ from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from email.mime.base import MIMEBase
 from email import encoders
-#gets the from address and the recipiant address
-fromaddr="cpbbwinfo@gmail.com"
-toaddr="charles.pierson15@gmail.com"
 
+
+#############################PUT ADDRESSES HERE ################################
+#gets the from address and the recipiant address
+fromaddr=""
+toaddr=""
+################################################################################
 msg = MIMEMultipart()
 
 msg['From'] = fromaddr
@@ -77,7 +80,9 @@ body = ("BBW Top Offers")
 msg.attach(MIMEText(body, 'plain'))
 
 filename="FinalOutput.txt"
-attachment = open("C:\\Users\\CJ' PC\\Desktop\\Python\\wb\\FinalOutput.txt", "rb")
+######################PUT LOCATION OF YOUR TXT FILE HERE########################
+attachment = open("", "rb")
+################################################################################
 
 part = MIMEBase('application', 'octet-stream')
 part.set_payload((attachment).read())
@@ -88,7 +93,9 @@ msg.attach(part)
  
 server = smtplib.SMTP('smtp.gmail.com', 587)
 server.starttls()
-server.login('cpbbwinfo@gmail.com', "05vDZT68f3IH")
+###########################FILL IN EMAIL AND PASSWORD#####################
+server.login('EMAIL', "PASSWORD")
+##########################################################################
 text = msg.as_string()
 server.sendmail(fromaddr, toaddr, text)
 server.quit()

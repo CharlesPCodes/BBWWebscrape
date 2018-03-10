@@ -81,7 +81,7 @@ msg.attach(MIMEText(body, 'plain'))
 
 filename="FinalOutput.txt"
 ######################PUT LOCATION OF YOUR TXT FILE HERE########################
-attachment = open("", "rb")
+attachment = open("C:\\Users\\USER NAME\\Desktop\\FinalOutput.txt", "rb")
 ################################################################################
 
 part = MIMEBase('application', 'octet-stream')
@@ -95,7 +95,7 @@ server = smtplib.SMTP('smtp.gmail.com', 587)
 server.starttls()
 ###########################FILL IN EMAIL AND PASSWORD#####################
 server.login('EMAIL', "PASSWORD")
-##########################################################################
+##################################
 text = msg.as_string()
 server.sendmail(fromaddr, toaddr, text)
 server.quit()

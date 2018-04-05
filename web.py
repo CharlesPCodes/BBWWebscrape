@@ -1,16 +1,28 @@
-'''
-Created by Charles Pierson
-	ALL RIGHTS RESERVED
-
-(Project started on August 21, 2017)
-'''
-
-
 from bs4 import BeautifulSoup
 from urllib.request import urlopen
 import smtplib
 from datetime import datetime
 import os
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
+from email.mime.base import MIMEBase
+from email import encoders
+
+
+########################################### ONLY CHANGE WHATS BELOW #############################################
+fromaddr = "" #This is going to be the email address that the text file is sent from
+toaddr = "" #The to address that the text file is sent to. Will try to make a database of emailsa for the script to run through
+
+#Below change the current dir to where the text file is located
+#In order to move up in a folder make sure you have the \\ otherwise it won't move up
+fileLocation = "C:\\Desktop\\FinalOutput.txt"
+
+
+#Below change the login username and password for the sender email.
+#NOTE :: You may need to allow login when using gmail for security purposes
+senderEmail = ""
+senderPassword = ""
+#################################################################################################################
 
 
 # Sets url to bbw var
@@ -48,33 +60,18 @@ with open('FinalOutput.txt', "w") as text_file:
 	print(col_three.text.strip(), file=text_file)
 	print(col_four.text.strip(), file=text_file)
 
-##############################
-# email
-from email.mime.multipart import MIMEMultipart
-from email.mime.text import MIMEText
-from email.mime.base import MIMEBase
-from email import encoders
-
-
-#############################PUT ADDRESSES HERE ################################
-#gets the from address and the recipiant address
-fromaddr=""
-toaddr=""
-################################################################################
 msg = MIMEMultipart()
 
 msg['From'] = fromaddr
 msg['To'] = toaddr
-msg['Subject'] = "Bath and Body Top Offers %s" % datetime.now()
+msg['Subject'] = "Bath and Body Works Top Offers %s" % datetime.now()
 body = ("BBW Top Offers")
-
 
 msg.attach(MIMEText(body, 'plain'))
 
+# Sets the file name and sets the location of the file
 filename="FinalOutput.txt"
-######################PUT LOCATION OF YOUR TXT FILE HERE########################
-attachment = open("C:\\Users\\USER NAME\\Desktop\\FinalOutput.txt", "rb")
-################################################################################
+attachment = open(fileLocation, "rb")
 
 part = MIMEBase('application', 'octet-stream')
 part.set_payload((attachment).read())
@@ -82,13 +79,11 @@ encoders.encode_base64(part)
 part.add_header('Content-Disposition', "attachment; filename= %s" % filename)
 
 msg.attach(part)
- 
 server = smtplib.SMTP('smtp.gmail.com', 587)
 server.starttls()
-###########################FILL IN EMAIL AND PASSWORD#####################
-server.login('EMAIL', "PASSWORD")
-##################################
+server.login(senderEmail, senderPassword)
 text = msg.as_string()
 server.sendmail(fromaddr, toaddr, text)
 server.quit()
+
 

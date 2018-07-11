@@ -1,6 +1,9 @@
 A script that runs everyday to grab the top deals from the Bath and Body Works website.
 
+
 **You need to open the wb.py file and fill in any missing information**
+
+To run the script open up cmd or terminal in the folder and run python web.py
 
 Instructions to schedule script to run everyday:
 
